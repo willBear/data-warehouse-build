@@ -83,7 +83,7 @@ def load_db_info(f_name_path):
 
 def main():
     db_info_file = "database_info.txt"
-    db_info_file_p = "\\" + db_info_file
+    db_info_file_p = "/" + db_info_file
     # necessary database info to connect and load our symbols further below
     db_host, db_user, db_password, db_name = load_db_info(db_info_file_p)
     

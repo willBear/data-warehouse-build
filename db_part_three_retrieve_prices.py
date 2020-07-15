@@ -9,7 +9,7 @@ from __future__ import print_function
 
 import datetime
 import psycopg2
-import fix_yahoo_finance as yf
+import yfinance as yf
 import pandas as pd
 import os
 
@@ -97,7 +97,7 @@ def load_yhoo_data(symbol, symbol_id, vendor_id, conn):
     cur = conn.cursor()
     # generic start date should pull all data for a given symbol
     start_dt = datetime.datetime(2004,12,30)
-    end_dt = datetime.datetime(2017,12,1)
+    end_dt = datetime.datetime(2020,7,14)
     
     yf.pdr_override()
     
@@ -154,7 +154,7 @@ def main():
     # Connect to our Postgres database 'securities_master'
     
     db_info_file = "database_info.txt"
-    db_info_file_p = "\\" + db_info_file
+    db_info_file_p = "/" + db_info_file
     # necessary database info to connect
     db_host, db_user, db_password, db_name = load_db_credential_info(db_info_file_p)
     
