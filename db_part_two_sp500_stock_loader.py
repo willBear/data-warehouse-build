@@ -88,6 +88,7 @@ def main():
     db_host, db_user, db_password, db_name = load_db_info(db_info_file_p)
     
     symbols = parse_wiki_snp500()
+    print(symbols)
     insert_snp500_symbols_postgres(symbols, db_host, db_user, db_password, db_name)
     print("%s symbols were successfully added." % len(symbols))  
 

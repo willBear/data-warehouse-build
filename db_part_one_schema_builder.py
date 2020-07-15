@@ -171,7 +171,7 @@ def main():
     # name of our database credential files (.txt)
     db_credential_info = "database_info.txt"
     # create a path version of our text file
-    db_credential_info_p = "\\" + db_credential_info
+    db_credential_info_p = '/' + db_credential_info
     
     # create our instance variables for host, username, password and database name
     db_host, db_user, db_password, db_name = load_db_credential_info(db_credential_info_p)
