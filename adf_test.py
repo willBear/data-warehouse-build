@@ -100,8 +100,8 @@ def main():
     cur = conn.cursor()
 
     # we will need to filter our results to create a test sample
-    start_date = datetime.date(2014, 12, 30)
-    end_date = datetime.date(2020, 7, 1)
+    start_date = datetime.date(2004, 12, 30)
+    end_date = datetime.date(2010, 12, 30)
 
     list_of_stocks = load_db_tickers_start_date(start_date, conn)
 

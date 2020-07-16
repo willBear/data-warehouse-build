@@ -6,7 +6,7 @@ Created on Thu Jul 12 13:37:39 2018
 """
 
 from __future__ import print_function
-
+from datetime import datetime
 import psycopg2
 import os
 
