@@ -12,6 +12,7 @@ import psycopg2
 import yfinance as yf
 import pandas as pd
 import os
+import time
 
 MASTER_LIST_FAILED_SYMBOLS = []
 
@@ -61,7 +62,7 @@ def insert_new_vendor(vendor, conn):
                 "INSERT INTO data_vendor(name, created_date, last_updated_date) VALUES (%s, %s, %s)",
                 (vendor, todays_date, todays_date)
                 )
-    conn.commit()
+    # conn.commit()
     
     
 def fetch_vendor_id(vendor_name, conn):
@@ -96,13 +97,14 @@ def load_yhoo_data(symbol, symbol_id, vendor_id, conn):
     
     cur = conn.cursor()
     # generic start date should pull all data for a given symbol
-    start_dt = datetime.datetime(2004,12,30)
-    end_dt = datetime.datetime(2020,7,14)
+    start_dt = datetime.datetime(2014,1,6)
+    end_dt = datetime.datetime(2020,7,8)
     
     yf.pdr_override()
     
     try:
         data = yf.download(symbol, start=start_dt, end=end_dt)
+        print('data retrived: size:' + str(len(data)))
     except:
         MASTER_LIST_FAILED_SYMBOLS.append(symbol)
         raise Exception('Failed to load {}'.format(symbol))
@@ -137,7 +139,7 @@ def load_yhoo_data(symbol, symbol_id, vendor_id, conn):
     list_of_lists = newDF.values.tolist()
     # convert our list to a list of tuples       
     tuples_mkt_data = [tuple(x) for x in list_of_lists]
-    
+    print(len(tuples_mkt_data))
     # WRITE DATA TO DB
     insert_query =  """
                     INSERT INTO daily_data (data_vendor_id, stock_id, created_date,
@@ -146,7 +148,7 @@ def load_yhoo_data(symbol, symbol_id, vendor_id, conn):
                     VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
                     """
     cur.executemany(insert_query, tuples_mkt_data)
-    conn.commit()    
+    # conn.commit()
     print('{} complete!'.format(symbol))
    
 
@@ -160,6 +162,7 @@ def main():
     
     # connect to our securities_master database
     conn = psycopg2.connect(host=db_host, database=db_name, user=db_user, password=db_password)
+    conn.autocommit= True
     
     # list of tuples: stock data pulled from our DB securities_master, table symbol
     # stock_data[0] = table id
