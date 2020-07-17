@@ -62,9 +62,10 @@ def select_first_last_dates(symbol_id, symbol, conn):
                 )
     data = cur.fetchall()
     print(data)
-    first_date = data[0][0].strftime('%m/%d/%Y')
-    last_date = data[0][1].strftime('%m/%d/%Y')
-    return str.join(',', (symbol, first_date, last_date))
+    if data[0][0]:
+        first_date = data[0][0].strftime('%m/%d/%Y')
+        last_date = data[0][1].strftime('%m/%d/%Y')
+        return str.join(',', (symbol, first_date, last_date))
 
   
 def main():
